@@ -28,14 +28,14 @@ def values(message: telebot.types.Message):
 # base, quote, amount = message.text.split(' ')
 @bot.message_handler(content_types=['text', ])
 def get_price(message: telebot.types.Message):
-    try:
+     try:
         text_l = message.text.lower()
         values = text_l.split(' ')
 
         if len(values) != 3:
             raise APIException('Неверно введены параметры')
 
-        base, quote, amount = values
+        quote,  base, amount = values
         # print(values)
         total_base = CryptoConverter.get_price(base, quote, amount)
     except APIException as e:
@@ -44,7 +44,7 @@ def get_price(message: telebot.types.Message):
     except Exception as e:
         bot.reply_to(message, f'Не удалось обработать команду\n{e}')
     else:
-        text = f'Цена {amount} {base} в {quote}: {total_base}'
+        text = f'Цена {amount} {quote} в {base}: {total_base}'
         bot.send_message(message.chat.id, text)
 
 
